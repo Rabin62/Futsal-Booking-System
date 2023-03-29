@@ -1,0 +1,100 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-book-lending-heading">Create or edit a Book Lending</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_reserveDate">Reserve Date</label>
+                    <div class="input-group">
+                        <input id="field_reserveDate" type="text" class="form-control" name="reserveDate" ngbDatepicker #reserveDateDp="ngbDatepicker" formControlName="reserveDate"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="reserveDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                        </span>
+                    </div>
+                    <div *ngIf="editForm.get('reserveDate')!.invalid && (editForm.get('reserveDate')!.dirty || editForm.get('reserveDate')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('reserveDate')?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_dueDate">Due Date</label>
+                    <div class="input-group">
+                        <input id="field_dueDate" type="text" class="form-control" name="dueDate" ngbDatepicker #dueDateDp="ngbDatepicker" formControlName="dueDate"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="dueDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                        </span>
+                    </div>
+                    <div *ngIf="editForm.get('dueDate')!.invalid && (editForm.get('dueDate')!.dirty || editForm.get('dueDate')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('dueDate')?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_returnedDate">Returned Date</label>
+                    <div class="input-group">
+                        <input id="field_returnedDate" type="text" class="form-control" name="returnedDate" ngbDatepicker #returnedDateDp="ngbDatepicker" formControlName="returnedDate"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="returnedDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_note">Note</label>
+                    <input type="text" class="form-control" name="note" id="field_note"
+                           formControlName="note"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_student">Student</label>
+                    <select class="form-control" id="field_student" name="student" formControlName="studentId">
+                        <option *ngIf="!editForm.get('studentId')!.value" [ngValue]="null" selected></option>
+                        <option [ngValue]="studentOption.id" *ngFor="let studentOption of students; trackBy: trackById">{{ studentOption.name }}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('studentId')!.invalid && (editForm.get('studentId')!.dirty || editForm.get('studentId')!.touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('studentId')?.errors?.required">
+                        This field is required.
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_book">Book</label>
+                    <select class="form-control" id="field_book" name="book" formControlName="bookId">
+                        <option *ngIf="!editForm.get('bookId')!.value" [ngValue]="null" selected></option>
+                        <option [ngValue]="bookOption.id" *ngFor="let bookOption of books; trackBy: trackById">{{ bookOption.name }}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('bookId')!.invalid && (editForm.get('bookId')!.dirty || editForm.get('bookId')!.touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('bookId')?.errors?.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+
+    <property name="now" value="now()" dbms="h2"/>
+    <property name="now" value="now()" dbms="mysql, mariadb"/>
+
+    <property name="floatType" value="float4" dbms="postgresql, h2"/>
+    <property name="floatType" value="float" dbms="mysql, oracle, mssql, mariadb"/>
+    <property name="clobType" value="clob" dbms="h2"/>
+    <property name="clobType" value="clob" dbms="mysql, oracle, mssql, mariadb, postgresql"/>
+    <property name="uuidType" value="varchar(36)" dbms="h2, mysql, mariadb"/>
+
+    <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20211010082610_added_entity_Library.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20211010084849_added_entity_Librarian.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20211010090954_added_entity_Book.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20211010091817_added_entity_Author.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20211010093313_added_entity_Faculty.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20211010093753_added_entity_Subject.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20211010102829_added_entity_Semester.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20211010103857_added_entity_Student.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20211010104402_added_entity_BookLending.xml" relativeToChangelogFile="false"/>
+    <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
+    <include file="config/liquibase/changelog/20211010084849_added_entity_constraints_Librarian.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20211010090954_added_entity_constraints_Book.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20211010093313_added_entity_constraints_Faculty.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20211010093753_added_entity_constraints_Subject.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20211010102829_added_entity_constraints_Semester.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20211010103857_added_entity_constraints_Student.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20211010104402_added_entity_constraints_BookLending.xml" relativeToChangelogFile="false"/>
+    <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
+    <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
+</databaseChangeLog>

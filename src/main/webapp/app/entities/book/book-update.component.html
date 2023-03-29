@@ -1,0 +1,102 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-book-heading">Create or edit a Book</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_name">Name</label>
+                    <input type="text" class="form-control" name="name" id="field_name"
+                           formControlName="name"/>
+                    <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('name')?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_publication">Publication</label>
+                    <input type="text" class="form-control" name="publication" id="field_publication"
+                           formControlName="publication"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_edition">Edition</label>
+                    <input type="text" class="form-control" name="edition" id="field_edition"
+                           formControlName="edition"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_isbn">Isbn</label>
+                    <input type="text" class="form-control" name="isbn" id="field_isbn"
+                           formControlName="isbn"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_quantity">Quantity</label>
+                    <input type="text" class="form-control" name="quantity" id="field_quantity"
+                           formControlName="quantity"/>
+                </div>
+                <div *ngIf="editForm.get('quantity')!.invalid && (editForm.get('quantity')!.dirty || editForm.get('quantity')!.touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('quantity')?.errors?.required">
+                        This field is required.
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_isAssigned">Is Assigned</label>
+                    <input type="checkbox" class="form-control" name="isAssigned" id="field_isAssigned"
+                           formControlName="isAssigned"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_author">Author</label>
+                    <select class="form-control" id="field_author" name="author" formControlName="authorId">
+                        <option *ngIf="!editForm.get('authorId')!.value" [ngValue]="null" selected></option>
+                        <option [ngValue]="authorOption.id" *ngFor="let authorOption of authors; trackBy: trackById">{{ authorOption.name}}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('authorId')!.invalid && (editForm.get('authorId')!.dirty || editForm.get('authorId')!.touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('authorId')?.errors?.required">
+                        This field is required.
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_subject">Subject</label>
+                    <select class="form-control" id="field_subject" name="subject" formControlName="subjectId">
+                        <option *ngIf="!editForm.get('subjectId')!.value" [ngValue]="null" selected></option>
+                        <option [ngValue]="subjectOption.id" *ngFor="let subjectOption of subjects; trackBy: trackById">{{ subjectOption.name }}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('subjectId')!.invalid && (editForm.get('subjectId')!.dirty || editForm.get('subjectId')!.touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('subjectId')?.errors?.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

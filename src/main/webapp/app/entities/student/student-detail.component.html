@@ -1,0 +1,130 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="student">
+            <h2><span>Student</span> {{ student.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Name</span></dt>
+                <dd>
+                    <span>{{ student.name }}</span>
+                </dd>
+                <dt><span>Address</span></dt>
+                <dd>
+                    <span>{{ student.address }}</span>
+                </dd>
+                <dt><span>Contact No</span></dt>
+                <dd>
+                    <span>{{ student.contactNo }}</span>
+                </dd>
+                <dt><span>Email</span></dt>
+                <dd>
+                    <span>{{ student.email }}</span>
+                </dd>
+                <dt><span>Semester</span></dt>
+                <dd>
+                    <div *ngIf="student.semesterId">
+                        <a [routerLink]="['/semester', student.semesterId, 'view']">{{ student.semesterName }}</a>
+                    </div>
+                </dd>
+            </dl>
+            <div>
+                <div>
+                    <span> Book Leandings details ::</span>
+
+                </div>
+                <table border="1">
+                    <thead>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        Book Name
+                    </th>
+                    <th>
+                        Reserve Date
+                    </th>
+                    <th>
+                        Due Date
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    <th>
+                        Action
+                    </th>
+                    </thead>
+                    <tbody>
+                    <tr
+                        *ngFor="let bookLending of student.bookLendings; let i=index">
+                        <td>
+                            {{bookLending.id}}
+                        </td>
+                        <td>
+                            {{bookLending.bookName}}
+                        </td>
+                        <td>
+                           {{bookLending.reserveDate}}
+
+                        </td>
+                        <td>
+                            {{bookLending.dueDate}}
+                        </td>
+                        <td>
+                            {{bookLending.returnedDate ? 'Returned' : 'Taken' }}
+                        </td>
+                        <td>
+                            <button *ngIf = "!bookLending.returnedDate"
+                                (click)="openReturnPopup(returnBook, bookLending)" class="btn btn-primary">
+                                <span>Return</span>
+                            </button>
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <ng-template #returnBook let-modal >
+                <div class="modal-header">
+                    <h4 class="modal-title">Return Book Note</h4>
+
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label">Note</label>
+                    <div class="d-flex">
+                        <input id="field_note" type="text"
+                               [(ngModel)]="this.note" class="form-control"
+                               name="note"
+                        />
+                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"(click)="reset()" >
+                        <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                    </button>
+
+                    <button  type="submit" [disabled]="isDisabled" class="btn btn-primary" (click)="approve()">
+                        <fa-icon icon="save"></fa-icon>&nbsp;<span>save</span>
+                    </button>
+
+                </div>
+                </div>
+            </ng-template>
+
+                <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/student', student.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+            </div>
+        </div>
+    </div>
+
