@@ -43,6 +43,13 @@ public class AuthorServiceImpl implements AuthorService {
         author = authorRepository.save(author);
         return authorMapper.toDto(author);
     }
+    @Override
+    public Author saveImage(Author author) {
+        log.debug("Request to save Author : {}", author);
+        Author authors = new Author();
+        authors = authorRepository.save(author);
+        return author;
+    }
 
     @Override
     @Transactional(readOnly = true)

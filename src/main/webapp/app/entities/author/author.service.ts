@@ -20,6 +20,11 @@ export class AuthorService {
   create(author: IAuthor): Observable<EntityResponseType> {
     return this.http.post<IAuthor>(this.resourceUrl, author, { observe: 'response' });
   }
+  submitFormData(author: IAuthor): Observable<EntityResponseType> {
+    // Add any required headers here, e.g., authorization token
+
+    return this.http.post<IAuthor>(this.resourceUrl, author, { observe: 'response' });
+  }
 
   update(author: IAuthor): Observable<EntityResponseType> {
     return this.http.put<IAuthor>(this.resourceUrl, author, { observe: 'response' });

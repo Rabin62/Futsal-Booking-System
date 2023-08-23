@@ -1,5 +1,6 @@
 package com.lms.web.rest;
 
+import com.lms.domain.Author;
 import com.lms.service.AuthorService;
 import com.lms.web.rest.errors.BadRequestAlertException;
 import com.lms.service.dto.AuthorDTO;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -51,7 +53,19 @@ public class AuthorResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new authorDTO, or with status {@code 400 (Bad Request)} if the author has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("/authors")
+    @PostMapping("/saave")
+    public ResponseEntity<Author> saveImage(@Valid @RequestBody Author author, @RequestParam("name") String name, @RequestParam("image") MultipartFile image) throws URISyntaxException {
+        // Save the image to the database or perform any other required operations
+        log.debug("REST request to save Author : {}", author);
+        if (author.getId() != null) {
+            throw new BadRequestAlertException("A new author cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        Author result = authorService.saveImage(author);
+        return ResponseEntity.created(new URI("/api/saave/" + result.getId()))
+                .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+                .body(result);
+    }
+  /*  @PostMapping("/authors")
     public ResponseEntity<AuthorDTO> createAuthor(@Valid @RequestBody AuthorDTO authorDTO) throws URISyntaxException {
         log.debug("REST request to save Author : {}", authorDTO);
         if (authorDTO.getId() != null) {
@@ -61,7 +75,7 @@ public class AuthorResource {
         return ResponseEntity.created(new URI("/api/authors/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
-    }
+    }*/
 
     /**
      * {@code PUT  /authors} : Updates an existing author.
@@ -71,7 +85,7 @@ public class AuthorResource {
      * or with status {@code 400 (Bad Request)} if the authorDTO is not valid,
      * or with status {@code 500 (Internal Server Error)} if the authorDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
+     *//*
     @PutMapping("/authors")
     public ResponseEntity<AuthorDTO> updateAuthor(@Valid @RequestBody AuthorDTO authorDTO) throws URISyntaxException {
         log.debug("REST request to update Author : {}", authorDTO);
@@ -84,12 +98,12 @@ public class AuthorResource {
             .body(result);
     }
 
-    /**
+    *//**
      * {@code GET  /authors} : get all the authors.
      *
      * @param pageable the pagination information.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of authors in body.
-     */
+     *//*
     @GetMapping("/authors")
     public ResponseEntity<List<AuthorDTO>> getAllAuthors(Pageable pageable) {
         log.debug("REST request to get a page of Authors");
@@ -105,12 +119,12 @@ public class AuthorResource {
         return ResponseEntity.ok().body(list);
     }
 
-    /**
+    *//**
      * {@code GET  /authors/:id} : get the "id" author.
      *
      * @param id the id of the authorDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the authorDTO, or with status {@code 404 (Not Found)}.
-     */
+     *//*
     @GetMapping("/authors/{id}")
     public ResponseEntity<AuthorDTO> getAuthor(@PathVariable Long id) {
         log.debug("REST request to get Author : {}", id);
@@ -118,16 +132,16 @@ public class AuthorResource {
         return ResponseUtil.wrapOrNotFound(authorDTO);
     }
 
-    /**
+    *//**
      * {@code DELETE  /authors/:id} : delete the "id" author.
      *
      * @param id the id of the authorDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
-     */
+     *//*
     @DeleteMapping("/authors/{id}")
     public ResponseEntity<Void> deleteAuthor(@PathVariable Long id) {
         log.debug("REST request to delete Author : {}", id);
         authorService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
-    }
+    }*/
 }

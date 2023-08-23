@@ -13,8 +13,7 @@ import org.mapstruct.*;
 public interface AuthorMapper extends EntityMapper<AuthorDTO, Author> {
 
 
-    @Mapping(target = "books", ignore = true)
-    @Mapping(target = "removeBook", ignore = true)
+
     Author toEntity(AuthorDTO authorDTO);
 
     default Author fromId(Long id) {

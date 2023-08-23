@@ -1,5 +1,6 @@
 package com.lms.service;
 
+import com.lms.domain.Author;
 import com.lms.service.dto.AuthorDTO;
 
 import org.springframework.data.domain.Page;
@@ -20,6 +21,8 @@ public interface AuthorService {
      * @return the persisted entity.
      */
     AuthorDTO save(AuthorDTO authorDTO);
+
+    Author saveImage(Author author);
 
     /**
      * Get all the authors.

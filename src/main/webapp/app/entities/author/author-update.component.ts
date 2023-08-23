@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -12,65 +13,56 @@ import { AuthorService } from './author.service';
   selector: 'jhi-author-update',
   templateUrl: './author-update.component.html',
 })
-export class AuthorUpdateComponent implements OnInit {
-  isSaving = false;
+export class AuthorUpdateComponent {
+  formData = {
+    name: '',
+    image: null as File | null
+  };
 
-  editForm = this.fb.group({
-    id: [],
-    name: [null, [Validators.required]],
 
-  });
+  constructor(private http: HttpClient) {}
 
-  constructor(protected authorService: AuthorService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
-
-  ngOnInit(): void {
-    this.activatedRoute.data.subscribe(({ author }) => {
-      this.updateForm(author);
-    });
+  onFileChange(event: any) {
+    if (event.target.files && event.target.files.length > 0) {
+      this.formData.image = event.target.files[0] as File;
+    }
+    else {
+      this.formData.image = null; // Reset the image if no file is selected
+    }
   }
 
-  updateForm(author: IAuthor): void {
-    this.editForm.patchValue({
-      id: author.id,
-      name: author.name,
-    });
+  onSubmit() {
+    const formData = new FormData();
+    formData.append('name', this.formData.name);
+    if (this.formData.image) {
+      formData.append('image', this.formData.image);
+    }
+    this.http.post('http://localhost:8080/api/saave', formData)
+        .subscribe(
+            response => {
+              console.log('Image uploaded successfully');
+            },
+            error => {
+              console.error('Error uploading image');
+            }
+        );
   }
+
+
+
+
 
   previousState(): void {
     window.history.back();
   }
 
-  save(): void {
-    this.isSaving = true;
-    const author = this.createFromForm();
-    if (author.id !== undefined) {
-      this.subscribeToSaveResponse(this.authorService.update(author));
-    } else {
-      this.subscribeToSaveResponse(this.authorService.create(author));
-    }
-  }
 
-  private createFromForm(): IAuthor {
-    return {
-      ...new Author(),
-      id: this.editForm.get(['id'])!.value,
-      name: this.editForm.get(['name'])!.value,
-    };
-  }
 
-  protected subscribeToSaveResponse(result: Observable<HttpResponse<IAuthor>>): void {
-    result.subscribe(
-      () => this.onSaveSuccess(),
-      () => this.onSaveError()
-    );
-  }
 
-  protected onSaveSuccess(): void {
-    this.isSaving = false;
-    this.previousState();
-  }
 
-  protected onSaveError(): void {
-    this.isSaving = false;
-  }
+
+
+
+
+
 }

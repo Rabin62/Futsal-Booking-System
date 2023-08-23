@@ -84,6 +84,10 @@ public class LmsApp {
             userAuthority.setName(AuthoritiesConstants.USER);
             authorityRepository.save(userAuthority);
 
+            Authority ownerAuthority=new Authority();
+            ownerAuthority.setName(AuthoritiesConstants.OWNER);
+            authorityRepository.save(ownerAuthority);
+
 
             if (!userRepository.findOneByLogin("admin").isPresent()) {
                 User user = new User();

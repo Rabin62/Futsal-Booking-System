@@ -1,6 +1,7 @@
 package com.lms.service.dto;
 
 import com.lms.service.dto.core.BaseDTO;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.*;
 import java.io.Serializable;
@@ -8,14 +9,23 @@ import java.io.Serializable;
 /**
  * A DTO for the {@link com.lms.domain.Author} entity.
  */
-public class AuthorDTO extends BaseDTO implements Serializable {
-    
+public class AuthorDTO {
     private Long id;
+    private String name;
+    private MultipartFile image;
 
-    @NotNull
-    private String Name;
+    // Constructors, getters, and setters
 
-    
+    public AuthorDTO() {
+    }
+
+    public AuthorDTO(String name, MultipartFile image) {
+        this.name = name;
+        this.image = image;
+    }
+
+
+
     public Long getId() {
         return id;
     }
@@ -25,36 +35,18 @@ public class AuthorDTO extends BaseDTO implements Serializable {
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
-    public void setName(String Name) {
-        this.Name = Name;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof AuthorDTO)) {
-            return false;
-        }
-
-        return id != null && id.equals(((AuthorDTO) o).id);
+    public MultipartFile getImage() {
+        return image;
     }
 
-    @Override
-    public int hashCode() {
-        return 31;
-    }
-
-    // prettier-ignore
-    @Override
-    public String toString() {
-        return "AuthorDTO{" +
-            "id=" + getId() +
-            ", Name='" + getName() + "'" +
-            "}";
+    public void setImage(MultipartFile image) {
+        this.image = image;
     }
 }
